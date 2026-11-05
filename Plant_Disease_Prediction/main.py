@@ -213,12 +213,37 @@ def load_trained_model():
     keras_path = os.path.join(BASE_DIR, 'trained_model.keras')
     h5_path = os.path.join(BASE_DIR, 'trained_model.h5')
     
+    # Priority 1: Load HDF5 (.h5) with compile=False (avoids Keras 3 layer deserialization conflicts)
+    if os.path.exists(h5_path):
+        try:
+            return tf.keras.models.load_model(h5_path, compile=False)
+        except Exception:
+            pass
+
+    # Priority 2: Load Native Keras (.keras) with compile=False
     if os.path.exists(keras_path):
-        return tf.keras.models.load_model(keras_path)
-    elif os.path.exists(h5_path):
+        try:
+            return tf.keras.models.load_model(keras_path, compile=False)
+        except Exception:
+            pass
+
+    # Priority 3: Fallback using tf_keras compatibility layer if present
+    try:
+        import tf_keras
+        if os.path.exists(h5_path):
+            return tf_keras.models.load_model(h5_path, compile=False)
+        elif os.path.exists(keras_path):
+            return tf_keras.models.load_model(keras_path, compile=False)
+    except Exception:
+        pass
+
+    # Priority 4: Standard default loaders
+    if os.path.exists(h5_path):
         return tf.keras.models.load_model(h5_path)
+    elif os.path.exists(keras_path):
+        return tf.keras.models.load_model(keras_path)
     else:
-        raise FileNotFoundError("Model file not found in directory.")
+        raise FileNotFoundError("Model file (trained_model.h5 or trained_model.keras) not found.")
 
 def predict_plant_disease(image_input):
     """
