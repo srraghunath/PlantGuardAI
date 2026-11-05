@@ -1,0 +1,11 @@
+.venv/
+venv/
+__pycache__/
+*.zip
+Plant_Disease_Dataset.zip
+Plant_Disease_Prediction/Plant_Disease_Dataset.zip
+.git/
+.gitignore
+.ipynb_checkpoints/
+*.ipynb
+

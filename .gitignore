@@ -1,0 +1,26 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Large Datasets (Cannot be uploaded to GitHub due to 100MB limit)
+*.zip
+Plant_Disease_Dataset/
+Plant_Disease_Dataset.zip
+Plant_Disease_Prediction/Plant_Disease_Dataset.zip
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Jupyter Checkpoints
+.ipynb_checkpoints/
+
